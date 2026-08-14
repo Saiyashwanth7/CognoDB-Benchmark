@@ -2,12 +2,7 @@
 
 ## 1. Summary
 
-This benchmark compares **CognoDB Cloud** against four other graph database
-platforms — **Neo4j AuraDB, Memgraph Cloud, FalkorDB, and self-hosted Neo4j
-Community** — on identical data, identical queries, and matched resource
-limits, to produce a fair, reproducible performance comparison.
-
-_(Fill in a 3-4 sentence summary of your key finding once you have results.)_
+CognoDB Cloud was benchmarked against four other Cypher-compatible graph platforms — Neo4j AuraDB, Memgraph Cloud, FalkorDB, and self-hosted Neo4j Community — on an identical 150,000-relationship synthetic social graph, under matched free-tier-equivalent resource limits (0.5 vCPU / 256MB RAM). FalkorDB's in-memory, Redis-backed architecture dominated every latency and throughput metric by 1-3 orders of magnitude over the disk-backed platforms. CognoDB itself was the slowest platform on nearly every single-query metric and, more importantly, was the only platform to show intermittent driver-level protocol failures — both during bulk loading and under concurrent load (a 20% error rate at 10 concurrent clients) — pointing to free-tier reliability issues rather than a simple "slow but correct" result. Self-hosted Neo4j Community was the fastest disk-backed platform on raw query latency, but its 256MB memory cap left it running at 98% utilization at rest, and it collapsed under concurrency (2.67 qps) — a reminder that single-query latency and concurrent throughput can tell very different stories, especially for JVM-based engines running near their memory limit.
 
 ## 2. Methodology
 
@@ -88,21 +83,13 @@ for every metric.
 
 ### 3.3 Lookups (ms)
 
-| Platform          | Point lookup p50 | Point lookup p95 |
-| ----------------- | ---------------- | ---------------- |
-| CognoDB           | 959.99           | 1119.068         |
-| Neo4j AuraDB      | 223.235          | 865.934          |
-| Memgraph Cloud    | 960.495          | 1120.286         |
-| FalkorDB          | 0.486            | 1.055            |
-| Neo4j Self-hosted | 7.721            | 65.151           |
-
-| Platform          | Point lookup p50 | Point lookup p95 | Indexed lookup p50 | Indexed lookup p95 | Indexed property |
-| ----------------- | ---------------- | ---------------- | ------------------ | ------------------ | ---------------- |
-| CognoDB           |                  |                  |                    |                    | id               |
-| Neo4j AuraDB      |                  |                  |                    |                    | id               |
-| Memgraph Cloud    |                  |                  |                    |                    | id               |
-| FalkorDB          |                  |                  |                    |                    | id               |
-| Neo4j Self-hosted |                  |                  |                    |                    | id               |
+| Platform          | Unindexed p50 | Unindexed p95 | Indexed p50 | Indexed p95 | Speedup (p50) | Indexed property |
+| ----------------- | ------------- | ------------- | ----------- | ----------- | ------------- | ---------------- |
+| CognoDB           | 1173.8        | 1546.402      | 1043.102    | 1761.812    | 1.13x         | id               |
+| Neo4j AuraDB      | 228.226       | 312.365       | 213.92      | 341.006     | 1.07x         | id               |
+| Memgraph Cloud    | 1124.877      | 1642.104      | 1035.289    | 1638.262    | 1.09x         | id               |
+| FalkorDB          | 9.392         | 57.506        | 0.964       | 76.231      | 9.74x         | id               |
+| Neo4j Self-hosted | 90.123        | 814.486       | 19.183      | 477.888     | 4.70x         | id               |
 
 ### 3.4 Aggregation (ms)
 
