@@ -112,6 +112,8 @@ Caveats.
 | FalkorDB          | 0.556     | 0.815     | 1.103     | 1.586     | 1.121     | 2.007     |
 | Neo4j Self-hosted | 11.991    | 75.134    | 16.016    | 92.508    | 13.995    | 42.295    |
 
+![p50_hop_traversal_comparison](image-1.png)
+
 ### 3.3 Lookups (ms)
 
 | Platform          | Unindexed p50 | Unindexed p95 | Indexed p50 | Indexed p95 | Speedup (p50) | Indexed property |
@@ -168,6 +170,8 @@ mode observed during bulk loading), reducing effective throughput to 7.73
 qps. This reinforces the loading-phase finding: CognoDB's free tier appears
 to intermittently return malformed responses, and this gets measurably
 worse under concurrent load rather than being a one-off fluke.
+
+![mixed_concurrent_workload](image.png)
 
 Neo4j Self-hosted, despite the lowest single-query latencies of any
 disk-backed platform (7–16ms, see 3.2/3.3), had the second-worst concurrent
