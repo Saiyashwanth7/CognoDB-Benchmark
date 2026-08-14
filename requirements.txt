@@ -1,0 +1,6 @@
+neo4j>=5.14.0          # Official driver — works for CognoDB, Neo4j AuraDB, Memgraph, and self-hosted Neo4j (all speak Bolt + Cypher)
+falkordb>=1.0.9         # Driver for FalkorDB (Redis-based graph database — different protocol, but Cypher-compatible queries)
+python-dotenv>=1.0.0   # Load credentials from a .env file instead of hardcoding them
+numpy>=1.26.0          # For percentile calculations (p50, p95)
+tqdm>=4.66.0           # Progress bars during bulk loading — helpful for sanity-checking long loads
+arango
